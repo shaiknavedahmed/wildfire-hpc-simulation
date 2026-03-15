@@ -1,8 +1,19 @@
 # Parallel Wildfire Spread Simulation (HPC)
 
-This project demonstrates a wildfire spread simulation using concepts from High Performance Computing (HPC). The wildfire spreads across a 2D forest grid and propagates from burning cells to neighboring trees over multiple time steps.
+![Language](https://img.shields.io/badge/Language-C-blue)
+![MPI](https://img.shields.io/badge/Parallel-MPI-green)
+![Docker](https://img.shields.io/badge/Container-Docker-blue)
+![Python](https://img.shields.io/badge/Visualization-Python-yellow)
 
-The project also demonstrates containerized execution and visualization of simulation results.
+This project implements a **wildfire spread simulation** using concepts from **High Performance Computing (HPC)**. The wildfire propagates across a forest grid using iterative computation and is executed using MPI.
+
+The project also demonstrates **containerized execution using Docker** and **visualization using Python**.
+
+---
+
+## Simulation Visualization
+
+![Wildfire Simulation](simulation.png)
 
 ---
 
@@ -18,7 +29,9 @@ The project also demonstrates containerized execution and visualization of simul
 
 ## Project Description
 
-The forest is represented as a two-dimensional grid. Each cell in the grid represents a portion of the forest and can be in one of three states:
+The forest is represented as a **two-dimensional grid** where each cell represents a portion of the forest.
+
+Each grid cell can exist in one of three states:
 
 | Symbol | Meaning |
 |------|------|
@@ -26,14 +39,14 @@ The forest is represented as a two-dimensional grid. Each cell in the grid repre
 | F | Fire |
 | B | Burned |
 
-The simulation follows these rules:
+### Fire Spread Rules
 
 1. The forest grid is initialized with trees.
-2. Fire is ignited at the center of the grid.
+2. Fire starts at the **center of the grid**.
 3. At every simulation step:
    - Burning trees become burned.
-   - Neighboring trees catch fire if adjacent to a burning tree.
-4. The simulation continues for multiple time steps.
+   - Neighboring trees catch fire if adjacent to a burning cell.
+4. The simulation runs for multiple time steps.
 
 ---
 
@@ -45,6 +58,7 @@ wildfire-hpc-simulation
 ├── wildfire.c          # MPI wildfire simulation
 ├── visualize_fire.py   # Python visualization
 ├── Dockerfile          # Container environment
+├── simulation.png      # Visualization screenshot
 └── README.md
 ```
 
@@ -52,13 +66,13 @@ wildfire-hpc-simulation
 
 ## Running the Simulation
 
-### Build the Docker container
+### Build Docker Container
 
 ```bash
 docker build -t wildfire-hpc .
 ```
 
-### Run the simulation
+### Run Simulation
 
 ```bash
 docker run wildfire-hpc
@@ -74,20 +88,53 @@ Run the wildfire visualization using Python:
 python3 visualize_fire.py
 ```
 
-This displays a graphical simulation showing wildfire spread step by step.
+This will display the wildfire spread step-by-step.
 
 ---
 
 ## Example Simulation Output
 
-The wildfire spreads outward from the center across the forest grid over multiple iterations.
+Final Forest State (Step 12)
 
 ```
-T T T F F T
-T F F B B F
-F B B B B B
-T F B B B F
-T T F F F T
+T T T T T T T T T T T T T T T T T T T T T T T T T T T T T T
+T T T T T T T T T T T T T F F F T T T T T T T T T T T T T T
+T T T T T T T T T T T T F B B B F T T T T T T T T T T T T T
+T T T T T T T T T T T F B B B B B F T T T T T T T T T T T T
+T T T T T T T T T T F B B B B B B B F T T T T T T T T T T T
+T T T T T T T T T F B B B B B B B B B F T T T T T T T T T T
+T T T T T T T T F B B B B B B B B B B B F T T T T T T T T T
+T T T T T T T F B B B B B B B B B B B B B F T T T T T T T T
+T T T T T T F B B B B B B B B B B B B B B B F T T T T T T T
+T T T T T F B B B B B B B B B B B B B B B B B F T T T T T T
+T T T T F B B B B B B B B B B B B B B B B B B B F T T T T T
+T T T F B B B B B B B B B B B B B B B B B B B B B F T T T T
+T T F B B B B B B B B B B B B B B B B B B B B B B B F T T T
+T F B B B B B B B B B B B B B B B B B B B B B B B B B F T T
+F B B B B B B B B B B B B B B B B B B B B B B B B B B B F T
+T F B B B B B B B B B B B B B B B B B B B B B B B B B F T T
+T T F B B B B B B B B B B B B B B B B B B B B B B B F T T T
+T T T F B B B B B B B B B B B B B B B B B B B B B F T T T T
+T T T T F B B B B B B B B B B B B B B B B B B B F T T T T T
+T T T T T F B B B B B B B B B B B B B B B B B F T T T T T T
+T T T T T T F B B B B B B B B B B B B B B B F T T T T T T T
+T T T T T T T F B B B B B B B B B B B B B F T T T T T T T T
+T T T T T T T T F B B B B B B B B B B B F T T T T T T T T T
+T T T T T T T T T F B B B B B B B B B F T T T T T T T T T T
+T T T T T T T T T T F B B B B B B B F T T T T T T T T T T T
+T T T T T T T T T T T F B B B B B F T T T T T T T T T T T T
+T T T T T T T T T T T T F B B B F T T T T T T T T T T T T T
+T T T T T T T T T T T T T F B F T T T T T T T T T T T T T T
+T T T T T T T T T T T T T T F T T T T T T T T T T T T T T T
+T T T T T T T T T T T T T T T T T T T T T T T T T T T T T T
+```
+
+Legend:
+
+```
+T → Tree
+F → Fire
+B → Burned
 ```
 
 ---
@@ -95,15 +142,15 @@ T T F F F T
 ## HPC Concepts Demonstrated
 
 - Grid-based computational modeling
-- Iterative simulation
+- Iterative wildfire propagation
 - Parallel runtime using MPI
 - Containerized execution using Docker
-- Visualization of simulation results
+- Scientific visualization of simulation results
 
 ---
 
 ## Author
 
-Naved Ahmed Shaik
+**Naved Ahmed Shaik**  
 B.Tech Computer Science & Engineering  
 SR University
